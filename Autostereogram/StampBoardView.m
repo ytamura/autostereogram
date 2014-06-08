@@ -59,7 +59,7 @@
     NSString *filterStr = [NSString stringWithFormat:@"self ENDSWITH '.png' AND self CONTAINS '%@'",_imageFilter];
     NSPredicate *fltr = [NSPredicate predicateWithFormat:filterStr];
     self.stampPngs = [directoryContent filteredArrayUsingPredicate:fltr];
-    NSLog(@"Filter %@, number of images found: %i", _imageFilter, _stampPngs.count);
+    NSLog(@"Filter %@, number of images found: %lu", _imageFilter, (unsigned long)_stampPngs.count);
     
     [self.collectionView reloadData];
 }

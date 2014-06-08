@@ -10,7 +10,6 @@
 #import <MessageUI/MFMailComposeViewController.h>
 
 @interface FinalViewController ()
--(void)shareFile:(UILongPressGestureRecognizer*)sender;
 @end
 
 @implementation FinalViewController
@@ -30,11 +29,9 @@
 	if (self.agram) {
         [self.finalAgram setImage:self.agram];
         NSLog(@"agram2 %f,%f",self.agram.size.height,self.agram.size.width);
-        
-        //long press
-        UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(shareFile:)];
-        longPress.minimumPressDuration = 2;
-        [self.view addGestureRecognizer:longPress];
+        if (self.showHomeButton) {
+            [self.buttonHome setHidden:!self.showHomeButton];
+        }
     }
 }
 
@@ -45,22 +42,25 @@
 }
 
 - (IBAction)buttonShare:(id)sender {
-    //[self.finalAgram setImage:self.agram];
+    [self shareFileByEmail];
 }
 
-#pragma mark UILongPressGestureRecognizer
--(void)shareFile:(UILongPressGestureRecognizer*)sender {
-    //need to pick Began or Ended, because otherwise this gets called both times
-    if (sender.state == UIGestureRecognizerStateBegan) {
-        NSLog(@"Long press recognized");
-    } else return;
-    
+- (IBAction)buttonHome:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark Sharing
+-(void)shareFileByEmail {
     if ([MFMailComposeViewController canSendMail]) {
         MFMailComposeViewController *controller = [[MFMailComposeViewController alloc] init];
         controller.navigationBar.tintColor = [UIColor blackColor];
         controller.mailComposeDelegate = self;
-        [controller setSubject:@"temp name"];
-        [controller setMessageBody:@"Here is your message!\n\n--MagicEye--" isHTML:YES];
+        [controller setSubject:@"An AGram for you"];
+        [controller setMessageBody:@"Here is your message!<br>--AGram--" isHTML:YES];
+        
+        //attach image
+        NSData* imageData = UIImagePNGRepresentation(self.agram);
+        [controller addAttachmentData:imageData mimeType:@"image/png" fileName:@"agram"];
         
         if (controller) {
             [self presentViewController:controller animated:YES completion:^{}];

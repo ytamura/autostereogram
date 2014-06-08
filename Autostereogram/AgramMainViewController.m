@@ -35,7 +35,7 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated {
-    [self.myDepthsTable deselectRowAtIndexPath:[self.myDepthsTable indexPathForSelectedRow] animated:YES];
+    [self.myDepthsTable reloadData];    
 }
 
 - (void)didReceiveMemoryWarning
@@ -147,7 +147,7 @@ commitEditingStyle:(UITableViewCellEditingStyle) editingStyle
     documentsPath = [myPathList objectAtIndex:0];
     NSLog(@"%@",documentsPath);
     directoryContent = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:documentsPath error:nil];
-    NSLog(@"Number of files found: %i",directoryContent.count);
+    NSLog(@"Number of files found: %lu",(unsigned long)directoryContent.count);
     
     NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.png' AND self CONTAINS 'depth'"];
     NSArray *onlyDepthMaps = [directoryContent filteredArrayUsingPredicate:fltr];

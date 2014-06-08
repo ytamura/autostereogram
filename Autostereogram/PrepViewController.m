@@ -60,6 +60,7 @@
         FinalViewController* finalView = [segue destinationViewController];
         Autostereogram* as = [[Autostereogram alloc] initWithDepthMap:self.depthMap];
         finalView.agram = [as createAutostereogram:[self.switchGuideDots isOn]];
+        finalView.showHomeButton = YES;
         
         //save depth map and autostereogram to files
         NSString* name =[self.textImageName.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];

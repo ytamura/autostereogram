@@ -15,6 +15,8 @@
 
 @property UIImage* agram;
 @property (strong, nonatomic) IBOutlet UIImageView *finalAgram;
+@property (strong, nonatomic) IBOutlet UIButton *buttonHome;
+@property BOOL showHomeButton;
 - (IBAction)buttonShare:(id)sender;
-
+- (IBAction)buttonHome:(id)sender;
 @end
